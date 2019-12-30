@@ -1,6 +1,8 @@
+import { WorkLog } from './worklog';
+
 export class Task {
-    dateTime : Date;
+    startDate : Date;
     name : string;
     hyperLink : string;
-    
+    workLogs : WorkLog[];
 }

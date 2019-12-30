@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Task } from '../models/task';
+import { WorkLog } from '../models/worklog';
 
 @Injectable({
   providedIn: 'root'
@@ -47,11 +48,27 @@ export class EpicFlowService {
           workLogs.push({
             name: task.Name, 
             workLogs: task.Assignments[0].Worklog,
-            hyperLink: task.Hyperlink
+            hyperLink: task.Hyperlink,
+            startDate: new Date(task.PossibleDates.Start as string)
           });        
         });
 
-        workLogs.ma
+        workLogs.map(wl => {
+          tasks.push({
+            startDate: wl.startDate,
+            name: wl.name,
+            hyperLink: wl.hyperLink,
+            workLogs: wl.workLogs.map(w => {
+              const newLog: WorkLog = {
+                dateTime: w.DateTime,
+                hours: w.Hours,
+                priority: w.Priority,
+                userId: w.Resource
+              };
+              return newLog;
+            })
+          });
+        });
       });
 
     return tasks;
