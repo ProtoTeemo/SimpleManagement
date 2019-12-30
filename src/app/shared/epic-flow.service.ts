@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Task } from '../models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class EpicFlowService {
           users.push({ userId: user.UserId, userName: user.UserName });
         });
       });
-      return users;
+    return users;
+  }
+
+  getTasks(date:Date): Task[]{
+
   }
 }
