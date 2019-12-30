@@ -14,6 +14,7 @@ export class InfoBoardComponent implements OnInit {
 
   ngOnInit() {
     this.users = this.service.getUsers();
+    console.log(this.service.getTasks(new Date(), "100000"));
   }
 
 }

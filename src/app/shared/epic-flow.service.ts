@@ -27,7 +27,33 @@ export class EpicFlowService {
     return users;
   }
 
-  getTasks(date:Date): Task[]{
+  getTasks(date: Date, userId: string): Task[] {
+    const headers = new HttpHeaders()
+      .set('Content-type', 'application/json')
+      .set('bellaSessionId', 'e3173a97caad413faf915954e52735b6');
 
+    const tasks = new Array<Task>();
+
+    this.http.post(`${this.baseUrl}/ProjectManagement/GetTimesheetUpdate`, { resourceId: userId }, { headers: headers })
+      .subscribe((res: any) => {
+        const workLogs = [];
+        
+        res.value.Tasks.filter(task => {
+          return task.Assignments.some(a => {
+             return a.Worklog.length > 0 
+            });
+        })
+        .map( task => {
+          workLogs.push({
+            name: task.Name, 
+            workLogs: task.Assignments[0].Worklog,
+            hyperLink: task.Hyperlink
+          });        
+        });
+
+        workLogs.ma
+      });
+
+    return tasks;
   }
 }
