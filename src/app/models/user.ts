@@ -6,4 +6,6 @@ export class User {
     userName : string;
     tasks? : Task[];
     tasksMap? : Map<string, Task[]> = new Map<string, Task[]>();
+    totalHours? : number;
+    hoursPerDays? : number[];
 }

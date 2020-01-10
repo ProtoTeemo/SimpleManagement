@@ -18,7 +18,6 @@ export class DateService {
         this.week.value[i] = newValue;
       }
       this.week.next(this.week.value);
-      console.log(this.week.value);
     }
 
   }

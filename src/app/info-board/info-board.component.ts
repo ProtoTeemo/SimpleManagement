@@ -3,6 +3,7 @@ import { EpicFlowService } from '../shared/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
 import { DateService } from '../shared/date.service';
+import { WorkLog } from '../models/worklog';
 
 @Component({
   selector: 'app-info-board',
@@ -16,57 +17,132 @@ export class InfoBoardComponent implements OnInit {
       private service: EpicFlowService,
       private dateService: DateService
     ) {
-    this.users = this.service.getUsers();
+    // получить пользователей
     this.dateService.week.subscribe(() => {
-
+      this.users.forEach(u => {
+        u.tasksMap.clear();
+      });
+      this.getTasks();
     });
   }
 
-  users: User[];
+  users: User[] = new Array<User>();
 
   ngOnInit() {
+    this.getUsers();
   }
 
-  printUser() {
-    this.users.forEach(user => {
-      this.dateService.week.value.forEach(day => {
-        user.tasks = this.service.getTasks(day, user);
-        // Нужно устанавливать не все таски, а только те, у которых есть ворклоги на нужный день
-        // user.tasks = user.tasks.filter(t => {
-        //   return t.workLogs.some(wl => this.compareDates(wl.dateTime, day));
-        // });
-        user.tasksMap.set(day.toLocaleDateString(), user.tasks);
+  getUsers() {
+    this.service.getUsers().subscribe((res: any) => {
+      res.value.users.map(user => {
+        const user_map: User = {
+          idInGroups: user.UserInGroups
+            .filter(u => ~u.Name.indexOf('Gebo'))
+            .map(u => u.Id),
+          userId: user.UserId,
+          userName: user.UserName,
+          tasksMap: new Map<string, Task[]>(),
+          tasks: new Array<Task>(),
+          hoursPerDays: new Array<number>(7)
+        };
+        this.users.push(user_map);
+      });
+      // получить таски
+      this.getTasks();
+    });
+  }
+
+  setTasksForWeek() {
+    this.users.forEach(u => {
+      this.dateService.week.value.forEach((day, i) => {
+        if (this.dateService.week.value.some(d => {
+          return this.compareDates(d, day);
+        })) {
+          const tasks = u.tasks.filter(t => {
+            return t.workLogs.some(wl => this.compareDates(wl.dateTime, day));
+          });
+          let hoursPerDay = 0;
+          tasks.forEach(t => {
+            const hoursMap = t.workLogs.map(wl => { return wl.hours});
+            hoursPerDay += hoursMap.reduce((prev, cur) =>{
+              return prev + cur;
+            });
+          });
+          u.hoursPerDays[i] = hoursPerDay;
+          tasks.map(t => {
+            t.workLogs = t.workLogs.filter(wl => {
+              return this.compareDates(wl.dateTime, day);
+            });
+          });
+          u.tasksMap.set(day.toLocaleDateString(), tasks);
+        }
+
       });
     });
   }
 
-  fillTable() {
+  getTasks() {
+    this.users.forEach(u => {
+      this.service.getTasks(u).subscribe((res: any) => {
+        const workLogs = [];
+        if(u.tasks.length > 0) u.tasks = new Array<Task>();
+        res.value.Tasks.filter(task => {
+          return task.Assignments.some(a => {
+            return a.Worklog.length > 0
+          });
+        })
+          .map(task => {
+            workLogs.push({
+              name: task.Name,
+              workLogs: task.Assignments[0].Worklog,
+              hyperLink: task.Hyperlink
+            });
+          });
 
+        workLogs.map(wl => {
+          u.tasks.push({
+            name: wl.name,
+            hyperLink: wl.hyperLink,
+            workLogs: wl.workLogs.map(w => {
+              const newLog: WorkLog = {
+                dateTime: new Date(Date.parse(w.DateTime)),
+                hours: w.Hours,
+                priority: w.Priority,
+                userId: w.Resource
+              };
+              return newLog;
+            })
+          });
+        });
+        this.setTasksForWeek();
+        this.calculateHours();
+      });
+    });
+  }
+
+  calculateHours(){
+    this.users.forEach(u => {
+      let sum = 0;
+      for(const tasks of u.tasksMap.values()){
+        tasks.map(t => {
+          t.workLogs.map(wl => {
+            sum += wl.hours;
+          })
+        })
+      }
+      u.totalHours = sum;
+    });
   }
 
   printTasks() {
-    this.users.forEach(user => {
+    this.users.forEach(u => {
       this.dateService.week.value.forEach(day => {
-        if (user.tasksMap.get(day.toLocaleDateString()) && user.tasksMap.get(day.toLocaleDateString()).length > 0)
-          console.log(`${user.userName}: `, user.tasksMap.get(day.toLocaleDateString()));
-      });
+        if(u.tasksMap.get(day.toLocaleDateString()).length > 0)
+          console.log(`${u.userName}: `, u.tasksMap.get(day.toLocaleDateString()));
+      })
     });
   }
 
-  filterTasks() {
-    // Нужно фильтровать таски по дате их ворклогов, чтобы они попадали в диапазон выбранной недели
-    this.users.forEach(user => {
-      this.dateService.week.value.forEach(day => {
-        user.tasksMap.set(day.toLocaleDateString(), user.tasksMap.get(day.toLocaleDateString())); 
-            // user.tasksMap
-            //     .get(day.toLocaleDateString())
-            //     .filter(t => t.workLogs
-            //     .every(wl => this.compareDates(wl.dateTime, day))));
-        // Теперь фильтруются в сервисе
-        //user.tasksMap.get(day.toLocaleDateString()).map(t => t.workLogs = t.workLogs.filter(this.checkDatesForWorkLogs.bind(this)));
-      });
-    });
-  }
 
   compareDates(...dates: Date[]) {
     if (dates.length < 2)
