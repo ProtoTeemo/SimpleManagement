@@ -5,4 +5,5 @@ export class User {
     userId : string;
     userName : string;
     tasks? : Task[];
+    tasksMap? : Map<string, Task[]> = new Map<string, Task[]>();
 }

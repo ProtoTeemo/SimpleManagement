@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DateService } from '../shared/date.service';
 
 @Component({
   selector: 'app-calendar',
@@ -7,11 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dateService : DateService) 
+  { }
 
-  bsValue = new Date();
+  bsValue : Date = new Date();
+
+  onDateChange(value: Date) : void{
+    const day = value.getDay();
+    if(day !== 0)
+      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 0 ? -6 : 0));
+    else
+      this.bsValue = value;
+    this.dateService.changeDate(value);
+  }
 
   ngOnInit() {
+
   }
 
 }

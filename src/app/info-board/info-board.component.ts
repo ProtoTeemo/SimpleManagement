@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EpicFlowService } from '../shared/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
+import { DateService } from '../shared/date.service';
 
 @Component({
   selector: 'app-info-board',
@@ -10,38 +11,61 @@ import { Task } from '../models/task';
 })
 export class InfoBoardComponent implements OnInit {
 
-  constructor(private service: EpicFlowService) { }
+  constructor
+    (
+      private service: EpicFlowService,
+      private dateService: DateService
+    ) {
+    this.users = this.service.getUsers();
+    this.dateService.week.subscribe(() => {
+
+    });
+  }
+
   users: User[];
-  tasks: Task[];
 
   ngOnInit() {
-    this.users = this.service.getUsers();
   }
 
   printUser() {
-    this.tasks = this.service.getTasks(new Date(Date.parse('2019-09-09T08:35:08.2907038+02:00')), this.users[5]);
-    console.log(this.users[5]);
+    this.users.forEach(user => {
+      this.dateService.week.value.forEach(day => {
+        user.tasks = this.service.getTasks(day, user);
+        // Нужно устанавливать не все таски, а только те, у которых есть ворклоги на нужный день
+        // user.tasks = user.tasks.filter(t => {
+        //   return t.workLogs.some(wl => this.compareDates(wl.dateTime, day));
+        // });
+        user.tasksMap.set(day.toLocaleDateString(), user.tasks);
+      });
+    });
+  }
+
+  fillTable() {
+
   }
 
   printTasks() {
-    console.log(this.tasks);
+    this.users.forEach(user => {
+      this.dateService.week.value.forEach(day => {
+        if (user.tasksMap.get(day.toLocaleDateString()) && user.tasksMap.get(day.toLocaleDateString()).length > 0)
+          console.log(`${user.userName}: `, user.tasksMap.get(day.toLocaleDateString()));
+      });
+    });
   }
 
-  filterTasks(){
-    this.tasks = this.tasks.filter(this.checkDatesForTasks.bind(this));
-    this.tasks.map(t => t.workLogs = t.workLogs.filter(this.checkDatesForWorkLogs.bind(this)));
-    this.users[5].tasks = this.tasks;
-    //this.users[5].calculateHours();
-  }
-
-  checkDatesForTasks(value): boolean {
-    const selectedDate = new Date(Date.parse('2019-09-09T08:35:08.2907038+02:00'));
-    return this.compareDates(value.workLogs[0].dateTime, selectedDate);
-  }
-
-  checkDatesForWorkLogs(value): boolean {
-    const selectedDate = new Date(Date.parse('2019-09-09T08:35:08.2907038+02:00'));
-    return this.compareDates(value.dateTime, selectedDate);
+  filterTasks() {
+    // Нужно фильтровать таски по дате их ворклогов, чтобы они попадали в диапазон выбранной недели
+    this.users.forEach(user => {
+      this.dateService.week.value.forEach(day => {
+        user.tasksMap.set(day.toLocaleDateString(), user.tasksMap.get(day.toLocaleDateString())); 
+            // user.tasksMap
+            //     .get(day.toLocaleDateString())
+            //     .filter(t => t.workLogs
+            //     .every(wl => this.compareDates(wl.dateTime, day))));
+        // Теперь фильтруются в сервисе
+        //user.tasksMap.get(day.toLocaleDateString()).map(t => t.workLogs = t.workLogs.filter(this.checkDatesForWorkLogs.bind(this)));
+      });
+    });
   }
 
   compareDates(...dates: Date[]) {

@@ -3,21 +3,17 @@
         <tr>
             <th class="text-center">Users</th>
             <th class="text-center">Total</th>
-            <th class="text-center">Day1</th>
-            <th class="text-center">Day2</th>
-            <th class="text-center">Day3</th>
-            <th class="text-center">Day4</th>
-            <th class="text-center">Day5</th>
-            <th class="text-center">Day6</th>
-            <th class="text-center">Day7</th>
+            <th class="text-center" *ngFor="let day of dateService.week.value">{{day | date}}</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let user of users">
-            <th class="text-center">{{user.userName}}</th>
+            <td class="text-center">{{user.userName}}</td>
+            <td class="text-center">{{user.hours}}</td>
         </tr>
     </tbody>
 </table>
 <button (click)="printUser()">print user</button>
 <button (click)="printTasks()">print tasks</button>
 <button (click)="filterTasks()">filter tasks</button>
+<button (click)="fillTable()">fillTable</button>

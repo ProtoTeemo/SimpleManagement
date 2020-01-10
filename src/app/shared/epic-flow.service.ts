@@ -26,7 +26,8 @@ export class EpicFlowService {
               .filter(u => ~u.Name.indexOf('Gebo'))
               .map(u => u.Id),
             userId: user.UserId,
-            userName: user.UserName
+            userName: user.UserName,
+            tasksMap: new Map<string, Task[]>()
           };
           users.push(user_map);
         });
@@ -49,13 +50,13 @@ export class EpicFlowService {
             return a.Worklog.length > 0
           });
         })
-          .map(task => {
-            workLogs.push({
-              name: task.Name,
-              workLogs: task.Assignments[0].Worklog, //.filter( w => this.compareDates(date, new Date(Date.parse(w.DateTime))))
-              hyperLink: task.Hyperlink
-            });
+        .map(task => {
+          workLogs.push({
+            name: task.Name,
+            workLogs: task.Assignments[0].Worklog,//.filter(wl => this.compareDates(date, new Date(Date.parse(wl.DateTime)))),
+            hyperLink: task.Hyperlink
           });
+        });
 
         workLogs.map(wl => {
           tasks.push({
