@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { EpicFlowService } from '../shared/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
@@ -8,7 +8,8 @@ import { WorkLog } from '../models/worklog';
 @Component({
   selector: 'app-info-board',
   templateUrl: './info-board.component.html',
-  styleUrls: ['./info-board.component.scss']
+  styleUrls: ['./info-board.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class InfoBoardComponent implements OnInit {
 
@@ -79,6 +80,14 @@ export class InfoBoardComponent implements OnInit {
 
       });
     });
+  }
+
+  hideUser(user: User){
+    localStorage.setItem(user.userId, JSON.stringify(user));
+  }
+
+  showUser(userId: string){
+    localStorage.removeItem(userId);
   }
 
   getTasks() {
@@ -152,6 +161,32 @@ export class InfoBoardComponent implements OnInit {
         && date.getMonth() == dates[0].getMonth()
         && date.getFullYear() == dates[0].getFullYear()
     })
+  }
+
+  isHidden(userId : string) : boolean {
+    return localStorage.getItem(userId) ? true : false;
+  }
+
+  hideIconMouseEnter(event){
+    event.target.innerText = "visibility_off";
+    event.target.style.color = "grey";
+  }
+
+  hideIconMouseLeave(event){
+    event.target.innerText = "visibility";
+    event.target.style.color = "black";
+  }
+
+
+  getHiddenUsersList(): {userName:string, id:string}[]{
+    const users = new Array<{userName:string, id:string}>();
+    const lenght = localStorage.length;
+    for (let i = 0; i < lenght; i++) {
+     const user = JSON.parse(localStorage.getItem(localStorage.key(i))) as User;
+     users.push({userName: user.userName, id: user.userId});    
+    }
+
+    return users;
   }
 
 }

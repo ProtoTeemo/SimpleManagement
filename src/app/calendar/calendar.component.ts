@@ -9,7 +9,7 @@ import { DateService } from '../shared/date.service';
 export class CalendarComponent implements OnInit {
 
   constructor(private dateService : DateService) 
-  { }
+  {}
 
   bsValue : Date = new Date();
 
@@ -20,6 +20,12 @@ export class CalendarComponent implements OnInit {
     else
       this.bsValue = value;
     this.dateService.changeDate(value);
+  }
+
+  onWeekChange(dir : number){
+    const newStartDate = new Date(this.bsValue.getFullYear(), this.bsValue.getMonth(), this.bsValue.getDate() + dir);
+    this.bsValue = newStartDate;
+    this.dateService.changeDate(newStartDate);
   }
 
   ngOnInit() {

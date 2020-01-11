@@ -1,0 +1,11 @@
+.icon__show-users-popup{
+    &:hover{
+        transition-duration: 300ms;
+        color: rgba(10, 173, 51, 0.867);
+    }
+}
+
+.popover{
+    box-shadow: #000000 0px 0px 5px 1px !important;
+}
+

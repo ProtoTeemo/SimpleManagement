@@ -8,19 +8,25 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { InfoBoardComponent } from './info-board/info-board.component';
 import { DatePipe } from './shared/date.pipe';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { AutoUpdateComponent } from './auto-update/auto-update.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarComponent,
     InfoBoardComponent,
-    DatePipe
+    DatePipe,
+    AutoUpdateComponent
   ],
   imports: [
     BrowserModule,
     BsDatepickerModule.forRoot(),
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    PopoverModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,20 +1,49 @@
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th class="text-center" style="width: 16.66%">Users</th>
-            <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">{{day | date}}</th>
-            <th class="text-center" style="width: 10%">Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let user of users">
-            <td class="text-center">{{user.userName}}</td>
-            <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays">
-                {{hoursPerDay}}
-            </td>
-            <td class="text-center font-weight-bold">{{user.totalHours}}</td>
-        </tr>
-    </tbody>
-</table>
+<div class="col-6">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="users-th d-flex justify-content-between">
+                    <span class="flex-fill">
+                        Users
+                    </span>
+                    <ng-template #pop>
+                        <div style="width: 150px;">
+                            <p *ngFor="let user of getHiddenUsersList()" class="d-flex justify-content-between">
+                                <span class="flex-fill">
+                                    {{user?.userName}}
+                                </span>
+                                <i class="material-icons flex-fill text-right" (click)="showUser(user.id)">
+                                    visibility
+                                </i>                              
+                            </p>
+                        </div>
+                    </ng-template>
+                    <i class="icon__show-users-popup material-icons flex-fill text-right" [popover]="pop"
+                        popoverTitle="Hidden users:" [adaptivePosition]="false" placement="right">
+                        visibility
+                    </i>
+                </th>
+                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">{{day | date}}</th>
+                <th class="text-center" style="width: 10%">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users" [class.d-none]="isHidden(user.userId)">
+                <td class="d-flex justify-content-between">
+                    <span class="flex-fill">
+                        {{user.userName}}
+                    </span>
 
-<button (click)="printTasks()">print tasks</button>
+                    <i class="hideUserIcon material-icons flex-fill text-right" (click)="hideUser(user)"
+                        (mouseenter)="hideIconMouseEnter($event)" (mouseleave)="hideIconMouseLeave($event)">
+                        visibility
+                    </i>
+                </td>
+                <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays">
+                    {{hoursPerDay.toFixed(1)}}
+                </td>
+                <td class="text-center font-weight-bold">{{user.totalHours.toFixed(1)}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

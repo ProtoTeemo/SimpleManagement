@@ -1,0 +1,11 @@
+<div class="input-group mb-3 offset-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">
+        <input type="checkbox" (change)="isActive = !isActive; onAutoUpdate();" [checked]='isActive'>
+      </div>
+    </div>
+    <input type="number" class="form-control" [(ngModel)]="intervalTime"
+    placeholder="Auto update time..." 
+    value="1.00" 
+    [disabled]='isActive'>
+  </div>
