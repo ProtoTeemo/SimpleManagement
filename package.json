@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
     "@types/datejs": "0.0.30",
-    "bootstrap": "4.1.1",
+    "bootstrap": "4.3.1",
     "datejs": "^1.0.0-rc3",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^5.2.0",
