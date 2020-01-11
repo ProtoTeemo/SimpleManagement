@@ -1,9 +1,14 @@
 <div class="col-4 mx-auto d-flex align-items-center mb-4 mt-3">
     <i class="material-icons m-1">arrow_left</i>
-    <input type="text" placeholder="Datepicker" class="form-control m-1" bsDatepicker [bsConfig]="{ adaptivePosition: true,
+
+    <input type="text" placeholder="Datepicker" class="form-control m-1" bsDatepicker 
+    [bsConfig]="{ adaptivePosition: true,
                          dateInputFormat: 'MMMM',
                          selectWeek: true,
-                         selectFromOtherMonth: true }" [bsValue]="bsValue" (bsValueChange)="onDateChange($event)">
+                         selectFromOtherMonth: true }" 
+                         #dp="bsDatepicker" 
+                         [bsValue]="bsValue" (bsValueChange)="onDateChange($event)">
+
     <i class="material-icons m-1">arrow_right</i>
-    <i class="material-icons m-1">calendar_today</i>
+    <i class="material-icons m-1" (click)="dp.toggle()">calendar_today</i>
 </div>
