@@ -16,7 +16,7 @@ export class InfoBoardComponent implements OnInit {
   constructor
     (
       private service: EpicFlowService,
-      private dateService: DateService
+      public dateService: DateService
     ) {
     // получить пользователей
     this.dateService.week.subscribe(() => {
