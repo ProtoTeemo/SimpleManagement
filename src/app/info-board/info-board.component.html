@@ -14,7 +14,7 @@
                                 </span>
                                 <i class="material-icons flex-fill text-right" (click)="showUser(user.id)">
                                     visibility
-                                </i>                              
+                                </i>
                             </p>
                         </div>
                     </ng-template>
@@ -23,7 +23,8 @@
                         visibility
                     </i>
                 </th>
-                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">{{day | date}}</th>
+                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">{{day | date}}
+                </th>
                 <th class="text-center" style="width: 10%">Total</th>
             </tr>
         </thead>
@@ -39,11 +40,41 @@
                         visibility
                     </i>
                 </td>
-                <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays">
-                    {{hoursPerDay.toFixed(1)}}
+                <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays"
+                [ngClass]="{
+                    'hours-to-capacity-0': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 10,
+                    'hours-to-capacity-1': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 25 
+                        &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 10,
+                    'hours-to-capacity-2': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 50 
+                        &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 25,
+                    'hours-to-capacity-3': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 75 
+                        &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 50,
+                    'hours-to-capacity-4': (getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 100 || getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100) 
+                        &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 75
+                  }">
+                {{hoursPerDay.toFixed(1)}}
                 </td>
-                <td class="text-center font-weight-bold">{{user.totalHours.toFixed(1)}}</td>
+                <td class="text-center font-weight-bold"
+                [ngClass]="{
+                    'hours-to-capacity-0': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 10,
+                    'hours-to-capacity-1': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 25 
+                        &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 10,
+                    'hours-to-capacity-2': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 50 
+                        &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 25,
+                    'hours-to-capacity-3': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 75 
+                        &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 50,
+                    'hours-to-capacity-4': (getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 100 || getWeekCapacityLevel(user.capacity, user.totalHours) &gt;= 100) 
+                        &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 75
+                  }">{{user.totalHours.toFixed(1)}}</td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<!-- [ngClass]="{
+    'hours-to-capacity-0': getHoursToCapacityLevel(user.capacity, hoursPerDay) &lt;= 10,
+    'hours-to-capacity-1': getHoursToCapacityLevel(user.capacity, hoursPerDay) &lt;= 25 &amp;&amp; &gt; 10,
+    'hours-to-capacity-2': getHoursToCapacityLevel(user.capacity, hoursPerDay) &lt;= 50 &amp;&amp; &gt; 25,
+    'hours-to-capacity-3': getHoursToCapacityLevel(user.capacity, hoursPerDay) &lt;= 75 &amp;&amp; &gt; 50,
+    'hours-to-capacity-4': getHoursToCapacityLevel(user.capacity, hoursPerDay) &lt;= 100 &amp;&amp; &gt; 75
+  }" -->

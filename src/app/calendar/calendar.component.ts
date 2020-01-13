@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DateService } from '../shared/date.service';
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { listLocales } from 'ngx-bootstrap/chronos'
 
 @Component({
   selector: 'app-calendar',
@@ -8,15 +10,17 @@ import { DateService } from '../shared/date.service';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor(public dateService : DateService) 
+  constructor(public dateService : DateService, private localeService: BsLocaleService) 
   {}
 
   bsValue : Date = new Date();
+  locale = 'ru';
+  locales = listLocales();
 
   onDateChange(value: Date) : void{
     const day = value.getDay();
-    if(day !== 0)
-      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 0 ? -6 : 0));
+    if(day !== 1)
+      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 1 ? -6 : 1));
     else
       this.bsValue = value;
     this.dateService.changeDate(value);
@@ -29,7 +33,7 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.localeService.use(this.locale);
   }
 
 }

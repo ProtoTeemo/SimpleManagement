@@ -4,7 +4,7 @@
         <input type="checkbox" (change)="isActive = !isActive; onAutoUpdate();" [checked]='isActive'>
       </div>
     </div>
-    <input type="number" class="form-control" [(ngModel)]="intervalTime" min="0"
+    <input type="number" class="form-control" [(ngModel)]="intervalTime" min="1"
     placeholder="Auto update time..." 
     value="1.00" 
     [disabled]='isActive'>

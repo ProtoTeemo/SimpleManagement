@@ -1,11 +1,31 @@
-.icon__show-users-popup{
-    &:hover{
-        transition-duration: 300ms;
-        color: rgba(10, 173, 51, 0.867);
-    }
+.icon__show-users-popup {
+  &:hover {
+    transition-duration: 300ms;
+    color: rgba(10, 173, 51, 0.867);
+  }
 }
 
-.popover{
-    box-shadow: #000000 0px 0px 5px 1px !important;
+.popover {
+  box-shadow: #000000 0px 0px 5px 1px !important;
 }
 
+.hours-to-capacity-0 {
+  color: #fc1803;
+}
+
+.hours-to-capacity-1 {
+  color: #fc6203;
+}
+
+.hours-to-capacity-2 {
+  color: #fcce03;
+}
+
+.hours-to-capacity-3 {
+  color: #6ed40e;
+}
+
+.hours-to-capacity-4 {
+  color: #63c506;
+  font-weight: 800;
+}

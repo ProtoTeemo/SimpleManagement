@@ -6,8 +6,11 @@ import * as moment from 'moment';
 export class DatePipe implements PipeTransform {
 
   transform(value: Date, ...args: any[]): any {
-    if(value)
+    if(value){
+      moment.locale('en');
       return moment(value).format("ddd DD");
+    }
+
   }
 
   

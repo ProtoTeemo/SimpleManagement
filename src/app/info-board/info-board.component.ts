@@ -35,7 +35,7 @@ export class InfoBoardComponent implements OnInit {
 
   getUsers() {
     this.service.getUsers().subscribe((res: any) => {
-      res.value.users.map(user => {
+      res.value.users.map((user, i) => {
         const user_map: User = {
           idInGroups: user.UserInGroups
             .filter(u => ~u.Name.indexOf('Gebo'))
@@ -44,7 +44,8 @@ export class InfoBoardComponent implements OnInit {
           userName: user.UserName,
           tasksMap: new Map<string, Task[]>(),
           tasks: new Array<Task>(),
-          hoursPerDays: new Array<number>(7)
+          hoursPerDays: new Array<number>(7),
+          capacity: this.service.getCapacity(res, i)
         };
         this.users.push(user_map);
       });
@@ -188,5 +189,31 @@ export class InfoBoardComponent implements OnInit {
 
     return users;
   }
+
+  getDayCapacityLevel(capacity: number, hours: number): number{
+    /*
+    Levels:
+      0: x <= 10% 
+      1: x <= 25% && x > 10%
+      2: x <= 50% && x > 25%
+      3. x <= 75% && x > 50%
+      4. x <= 100% && x > 75%
+     */
+    if(!capacity) return 0;
+    let normalHours = capacity * 8 * 0.01;
+    let onePercentage = normalHours / 100;
+
+    return hours / onePercentage; 
+  }
+
+  getWeekCapacityLevel(capacity: number, hours: number) : number{
+    if(!capacity) return 0;
+    let normalHours = capacity * 40 * 0.01;
+    let onePercentage = normalHours / 100;
+
+    return hours / onePercentage; 
+  }
+
+
 
 }

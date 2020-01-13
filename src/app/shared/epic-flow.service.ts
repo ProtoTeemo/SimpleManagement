@@ -29,6 +29,17 @@ export class EpicFlowService {
     return this.http.post(`${this.baseUrl}/ProjectManagement/GetTimesheetUpdate`, { resourceId: user.userId }, { headers: headers })
   }
 
+  getCapacity(usersResponse : any, index: number){
+    let capacityResult = 0;
+    usersResponse.value.users[index].SubUsers.forEach(u => {
+      if(Object.keys(u.Capacity).length > 0){
+        capacityResult += u.Capacity[Object.keys(u.Capacity)[Object.keys(u.Capacity).length - 1]];
+      }
+        
+    });
+    return capacityResult;
+  }
+
   compareDates(...dates: Date[]) {
     if (dates.length < 2)
       throw new Error("Invalid arguments!")

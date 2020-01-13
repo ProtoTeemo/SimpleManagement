@@ -11,6 +11,9 @@ import { DatePipe } from './shared/date.pipe';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { AutoUpdateComponent } from './auto-update/auto-update.component';
 import { FormsModule } from '@angular/forms';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ruLocale } from 'ngx-bootstrap/locale';
+defineLocale('ru', ruLocale);
 
 @NgModule({
   declarations: [

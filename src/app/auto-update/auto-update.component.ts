@@ -11,7 +11,7 @@ export class AutoUpdateComponent implements OnInit {
   constructor( private dateService : DateService) { }
 
   isActive: boolean = false;
-  intervalTime :number = 0;
+  intervalTime :number = 1;
   interval: number;
 
   ngOnInit() {
