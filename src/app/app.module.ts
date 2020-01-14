@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ruLocale } from 'ngx-bootstrap/locale';
 import { MatModule } from './mat/mat.module';
+import { SortPipe } from './shared/sort.pipe';
 defineLocale('ru', ruLocale);
 
 @NgModule({
@@ -22,7 +23,8 @@ defineLocale('ru', ruLocale);
     CalendarComponent,
     InfoBoardComponent,
     DatePipe,
-    AutoUpdateComponent
+    AutoUpdateComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,12 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="users-th d-flex justify-content-between">
-                    <span class="flex-fill">
+                <th class="d-flex justify-content-between names-col">
+                    <span class="flex-fill d-flex">
                         Users
+                        <i class="material-icons sort-icon" (click)="changeNameSortMethod()">
+                            keyboard_arrow_down
+                        </i>
                     </span>
                     <ng-template #pop>
                         <div style="width: 150px;">
@@ -19,7 +22,8 @@
                         </div>
                     </ng-template>
                     <i class="icon__show-users-popup material-icons flex-fill text-right" [popover]="pop"
-                        popoverTitle="Hidden users:" [adaptivePosition]="false" placement="right">
+                        popoverTitle="Hidden users:" [adaptivePosition]="false" placement="right"
+                        (click)="$event.stopPropagation()">
                         visibility
                     </i>
                 </th>
@@ -29,7 +33,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users" [class.d-none]="isHidden(user.userId)">
+            <tr *ngFor="let user of users | sort : 'userName' : namesSortMethod"
+                [class.d-none]="isHidden(user.userId)">
                 <td class="d-flex justify-content-between">
                     <span class="flex-fill">
                         {{user.userName}}
@@ -40,22 +45,21 @@
                         visibility
                     </i>
                 </td>
-                <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays"
+                <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays" 
+                [class.bold-hours-to-capacity]='getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100 || getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 0'
                 [ngClass]="{
                     'hours-to-capacity-0': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 10,
                     'hours-to-capacity-1': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 25 
                         &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 10,
                     'hours-to-capacity-2': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 50 
                         &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 25,
-                    'hours-to-capacity-3': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 75 
+                    'hours-to-capacity-3': getDayCapacityLevel(user.capacity, hoursPerDay) &lt; 100 
                         &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 50,
-                    'hours-to-capacity-4': (getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 100 || getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100) 
-                        &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 75
+                    'hours-to-capacity-4': getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100
                   }">
-                {{hoursPerDay.toFixed(1)}}
+                    {{hoursPerDay?.toFixed(1)}}
                 </td>
-                <td class="text-center font-weight-bold"
-                [ngClass]="{
+                <td class="text-center font-weight-bold" [ngClass]="{
                     'hours-to-capacity-0': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 10,
                     'hours-to-capacity-1': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 25 
                         &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 10,
@@ -65,7 +69,8 @@
                         &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 50,
                     'hours-to-capacity-4': (getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 100 || getWeekCapacityLevel(user.capacity, user.totalHours) &gt;= 100) 
                         &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 75
-                  }">{{user.totalHours.toFixed(1)}}</td>
+                  }">
+                  {{user.totalHours?.toFixed(1)}}</td>
             </tr>
         </tbody>
     </table>

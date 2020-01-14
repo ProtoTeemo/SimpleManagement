@@ -9,23 +9,34 @@
   box-shadow: #000000 0px 0px 5px 1px !important;
 }
 
+.bold-hours-to-capacity{
+  font-weight: 800;
+}
+
 .hours-to-capacity-0 {
   color: #fc1803;
 }
 
 .hours-to-capacity-1 {
-  color: #fc6203;
+  color: #fc5e03;
 }
 
 .hours-to-capacity-2 {
-  color: #fcce03;
+  color: #fda706;
 }
 
 .hours-to-capacity-3 {
-  color: #6ed40e;
+  color: #fac518;
 }
 
 .hours-to-capacity-4 {
   color: #63c506;
-  font-weight: 800;
+}
+
+.sort-icon{
+  opacity: 0.0;
+  &:hover{
+    transition-duration: 400ms;
+    opacity: 1;
+  }
 }

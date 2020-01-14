@@ -14,6 +14,11 @@ enum CapacityLevels {
   BEST
 }
 
+export enum SortMethods {
+  NONE,
+  NORMAL,
+  REVERSE
+}
 
 @Component({
   selector: 'app-info-board',
@@ -38,6 +43,12 @@ export class InfoBoardComponent implements OnInit {
   }
 
   users: User[] = new Array<User>();
+
+  namesSortMethod: SortMethods = SortMethods.NONE;
+  hoursPerDaySortMethod: SortMethods.NONE;
+  hoursPerWeekSortMethod: SortMethods.NONE;
+
+  get sortMethods() { return SortMethods; }
 
   ngOnInit() {
     this.getUsers();
@@ -214,4 +225,13 @@ export class InfoBoardComponent implements OnInit {
 
     return hours / onePercentage;
   }
+
+  //#region Sort methods
+  changeNameSortMethod(){
+    if(this.namesSortMethod < 2)
+      this.namesSortMethod += 1
+    else
+      this.namesSortMethod = 0;
+  }
+  //#endregion
 }
