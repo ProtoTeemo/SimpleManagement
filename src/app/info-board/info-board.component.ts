@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { EpicFlowService } from '../shared/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
 import { DateService } from '../shared/date.service';
 import { WorkLog } from '../models/worklog';
+import { MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-info-board',
