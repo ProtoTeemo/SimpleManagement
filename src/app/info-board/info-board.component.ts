@@ -1,10 +1,20 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { EpicFlowService } from '../shared/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
 import { DateService } from '../shared/date.service';
 import { WorkLog } from '../models/worklog';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { CapacityLevel } from '../models/capacityLevel';
+
+
+enum CapacityLevels {
+  TERRIBLE,
+  LOW,
+  MEDIUM,
+  HIGHT,
+  BEST
+}
+
 
 @Component({
   selector: 'app-info-board',
@@ -66,8 +76,8 @@ export class InfoBoardComponent implements OnInit {
           });
           let hoursPerDay = 0;
           tasks.forEach(t => {
-            const hoursMap = t.workLogs.map(wl => { return wl.hours});
-            hoursPerDay += hoursMap.reduce((prev, cur) =>{
+            const hoursMap = t.workLogs.map(wl => { return wl.hours });
+            hoursPerDay += hoursMap.reduce((prev, cur) => {
               return prev + cur;
             });
           });
@@ -84,11 +94,11 @@ export class InfoBoardComponent implements OnInit {
     });
   }
 
-  hideUser(user: User){
+  hideUser(user: User) {
     localStorage.setItem(user.userId, JSON.stringify(user));
   }
 
-  showUser(userId: string){
+  showUser(userId: string) {
     localStorage.removeItem(userId);
   }
 
@@ -96,7 +106,7 @@ export class InfoBoardComponent implements OnInit {
     this.users.forEach(u => {
       this.service.getTasks(u).subscribe((res: any) => {
         const workLogs = [];
-        if(u.tasks.length > 0) u.tasks = new Array<Task>();
+        if (u.tasks.length > 0) u.tasks = new Array<Task>();
         res.value.Tasks.filter(task => {
           return task.Assignments.some(a => {
             return a.Worklog.length > 0
@@ -131,10 +141,10 @@ export class InfoBoardComponent implements OnInit {
     });
   }
 
-  calculateHours(){
+  calculateHours() {
     this.users.forEach(u => {
       let sum = 0;
-      for(const tasks of u.tasksMap.values()){
+      for (const tasks of u.tasksMap.values()) {
         tasks.map(t => {
           t.workLogs.map(wl => {
             sum += wl.hours;
@@ -148,7 +158,7 @@ export class InfoBoardComponent implements OnInit {
   printTasks() {
     this.users.forEach(u => {
       this.dateService.week.value.forEach(day => {
-        if(u.tasksMap.get(day.toLocaleDateString()).length > 0)
+        if (u.tasksMap.get(day.toLocaleDateString()).length > 0)
           console.log(`${u.userName}: `, u.tasksMap.get(day.toLocaleDateString()));
       })
     });
@@ -165,33 +175,33 @@ export class InfoBoardComponent implements OnInit {
     })
   }
 
-  isHidden(userId : string) : boolean {
+  isHidden(userId: string): boolean {
     return localStorage.getItem(userId) ? true : false;
   }
 
-  hideIconMouseEnter(event){
+  hideIconMouseEnter(event) {
     event.target.innerText = "visibility_off";
     event.target.style.color = "grey";
   }
 
-  hideIconMouseLeave(event){
+  hideIconMouseLeave(event) {
     event.target.innerText = "visibility";
     event.target.style.color = "black";
   }
 
 
-  getHiddenUsersList(): {userName:string, id:string}[]{
-    const users = new Array<{userName:string, id:string}>();
+  getHiddenUsersList(): { userName: string, id: string }[] {
+    const users = new Array<{ userName: string, id: string }>();
     const lenght = localStorage.length;
     for (let i = 0; i < lenght; i++) {
-     const user = JSON.parse(localStorage.getItem(localStorage.key(i))) as User;
-     users.push({userName: user.userName, id: user.userId});    
+      const user = JSON.parse(localStorage.getItem(localStorage.key(i))) as User;
+      users.push({ userName: user.userName, id: user.userId });
     }
 
     return users;
   }
 
-  getDayCapacityLevel(capacity: number, hours: number): number{
+  getDayCapacityLevel(capacity: number, hours: number): number {
     /*
     Levels:
       0: x <= 10% 
@@ -200,21 +210,18 @@ export class InfoBoardComponent implements OnInit {
       3. x <= 75% && x > 50%
       4. x <= 100% && x > 75%
      */
-    if(!capacity) return 0;
+    if (!capacity) return 0;
     let normalHours = capacity * 8 * 0.01;
     let onePercentage = normalHours / 100;
 
-    return hours / onePercentage; 
+    return hours / onePercentage;
   }
 
-  getWeekCapacityLevel(capacity: number, hours: number) : number{
-    if(!capacity) return 0;
+  getWeekCapacityLevel(capacity: number, hours: number): number {
+    if (!capacity) return 0;
     let normalHours = capacity * 40 * 0.01;
     let onePercentage = normalHours / 100;
 
-    return hours / onePercentage; 
+    return hours / onePercentage;
   }
-
-
-
 }

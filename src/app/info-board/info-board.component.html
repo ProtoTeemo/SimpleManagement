@@ -42,7 +42,7 @@
                 </td>
                 <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays"
                 [ngClass]="{
-                    'hours-to-capacity-0': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 10,
+                    'hours-to-capacity-0': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= capacityLevels[CAPACITY_TO_HOURS.TERRIBLE].max,
                     'hours-to-capacity-1': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 25 
                         &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 10,
                     'hours-to-capacity-2': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 50 
