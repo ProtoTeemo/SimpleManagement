@@ -4,7 +4,6 @@ import { User } from '../models/user';
 import { Task } from '../models/task';
 import { DateService } from '../shared/date.service';
 import { WorkLog } from '../models/worklog';
-import { CapacityLevel } from '../models/capacityLevel';
 
 
 enum CapacityLevels {
@@ -152,15 +151,6 @@ export class InfoBoardComponent implements OnInit {
         })
       }
       u.totalHours = sum;
-    });
-  }
-
-  printTasks() {
-    this.users.forEach(u => {
-      this.dateService.week.value.forEach(day => {
-        if (u.tasksMap.get(day.toLocaleDateString()).length > 0)
-          console.log(`${u.userName}: `, u.tasksMap.get(day.toLocaleDateString()));
-      })
     });
   }
 
