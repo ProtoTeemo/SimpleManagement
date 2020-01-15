@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Task } from '../models/task';
 import { DateService } from '../shared/date.service';
 import { WorkLog } from '../models/worklog';
+import { ViewSettingsService } from '../shared/view-settings.service';
 
 
 enum CapacityLevels {
@@ -31,9 +32,9 @@ export class InfoBoardComponent implements OnInit {
   constructor
     (
       private service: EpicFlowService,
-      public dateService: DateService
+      public dateService: DateService,
+      public viewSettings: ViewSettingsService
     ) {
-    // получить пользователей
     this.dateService.week.subscribe(() => {
       this.users.forEach(u => {
         u.tasksMap.clear();

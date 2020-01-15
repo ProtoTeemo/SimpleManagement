@@ -1,0 +1,14 @@
+<div class="btn-group btn-group-toggle col-2 col-lg-2 offset-lg-5 mb-3" data-toggle="options">
+    <label class="btn btn-secondary" [class.active]="viewSettingsService.dayDataFormat.value == 'hours'">
+      <input type="radio" name="options" id="option1" autocomplete="off"
+      [checked]="viewSettingsService.dayDataFormat.value == 'hours'" 
+      value="hours"
+      (change)="changeFormat($event)">h
+    </label>
+    <label class="btn btn-secondary" [class.active]="viewSettingsService.dayDataFormat.value == 'percantage'">
+      <input type="radio" name="options" id="option2" autocomplete="off"
+      [checked]="viewSettingsService.dayDataFormat.value == 'percantage'" 
+      value="percantage"
+      (change)="changeFormat($event)">%
+    </label>
+  </div>

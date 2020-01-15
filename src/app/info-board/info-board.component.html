@@ -1,4 +1,4 @@
-<div class="col-6">
+<div class="col-lg-6">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -27,7 +27,7 @@
                         visibility
                     </i>
                 </th>
-                <th class="text-center" style="width: 8%" *ngFor="let day of dateService.week.value">
+                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">
                     <span class="d-flex flex-column align-items-center">
                         {{day | date}}
                         <i class="material-icons sort-icon text-right"
@@ -70,7 +70,7 @@
                         &amp;&amp; getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 50,
                     'hours-to-capacity-4': getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100
                   }">
-                    {{hoursPerDay?.toFixed(1)}}
+                    {{ hoursPerDay?.toFixed(1) | dayData : viewSettings.dayDataFormat.value : user.capacity}}
                 </td>
                 <td class="text-center font-weight-bold" [ngClass]="{
                     'hours-to-capacity-0': getWeekCapacityLevel(user.capacity, user.totalHours) &lt;= 10,
@@ -82,7 +82,7 @@
                         &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 50,
                     'hours-to-capacity-4': getWeekCapacityLevel(user.capacity, user.totalHours) &gt;= 100
                   }">
-                    {{user.totalHours?.toFixed(1)}}</td>
+                    {{user.totalHours?.toFixed(1) | dayData : viewSettings.dayDataFormat.value : user.capacity : 'total'}}</td>
             </tr>
         </tbody>
     </table>

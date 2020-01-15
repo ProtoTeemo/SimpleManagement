@@ -16,6 +16,8 @@ import { ruLocale } from 'ngx-bootstrap/locale';
 import { MatModule } from './mat/mat.module';
 import { SortPipe } from './shared/sort.pipe';
 import { DaySortPipe } from './shared/day-sort.pipe';
+import { FormatSelectorComponent } from './format-selector/format-selector.component';
+import { DayDataPipe } from './shared/day-data.pipe';
 defineLocale('ru', ruLocale);
 
 @NgModule({
@@ -26,7 +28,9 @@ defineLocale('ru', ruLocale);
     DatePipe,
     AutoUpdateComponent,
     SortPipe,
-    DaySortPipe
+    DaySortPipe,
+    FormatSelectorComponent,
+    DayDataPipe
   ],
   imports: [
     BrowserModule,
