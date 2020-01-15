@@ -17,8 +17,7 @@ export class DaySortPipe implements PipeTransform {
       order = 'asc';
     }
     if (!value || order === '' || !order) { return value; } // no array
-    if ( day < 0 ) { return _.sortBy(value); } // sort 1d array
-    if (value.length <= 1) { return value; } // array with only one item
+    if (value.length <= 1 || day == -1) { return value; } // array with only one item
     return _.orderBy(value, [`hoursPerDays[${day}]`], [order as any]);
   }
 

@@ -44,11 +44,15 @@ export class InfoBoardComponent implements OnInit {
 
   users: User[] = new Array<User>();
 
+  //#region  Sort
   namesSortOrder: SortMethods = SortMethods.NONE;
-  hoursPerDaySortOrder: SortMethods.NONE;
-  hoursPerWeekSortOrder: SortMethods.NONE;
+  hoursPerDaySortOrder: SortMethods = SortMethods.NONE;
+  hoursPerWeekSortOrder: SortMethods = SortMethods.NONE;
+  sortDay: number = -1;
 
   get sortMethods() { return SortMethods; }
+
+  //#endregion
 
   ngOnInit() {
     this.getUsers();
@@ -226,12 +230,42 @@ export class InfoBoardComponent implements OnInit {
     return hours / onePercentage;
   }
 
+  //#region Sort methods
   changeNamesSortOrder(event) {
     if (this.namesSortOrder < 2)
       this.namesSortOrder += 1
     else
       this.namesSortOrder = 0;
 
+    if (this.namesSortOrder != SortMethods.NONE) {
+      this.hoursPerDaySortOrder = SortMethods.NONE;
+      this.hoursPerWeekSortOrder = SortMethods.NONE;
+      this.changeArrow(event);
+    }
+    this.changeArrow(event);
+  }
+
+  changehoursPerDaySortOrder(event, day) {
+    if (this.hoursPerDaySortOrder < 2) {
+      this.hoursPerDaySortOrder += 1
+      this.sortDay = day;
+    }
+    else {
+      this.sortDay = -1;
+      this.hoursPerDaySortOrder = 0;
+    }
+
+    if (this.namesSortOrder != SortMethods.NONE) {
+      this.namesSortOrder = SortMethods.NONE;
+      this.hoursPerWeekSortOrder = SortMethods.NONE;
+      this.changeArrow(event);
+    }
+
+    this.changeArrow(event);
+  }
+
+  changeArrow(event) {
     event.target.innerText = ~(event.target.innerText as string).indexOf("down", 0) ? "keyboard_arrow_up" : "keyboard_arrow_down";
   }
+  //#endregion
 }
