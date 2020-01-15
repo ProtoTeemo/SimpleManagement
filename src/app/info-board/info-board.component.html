@@ -39,7 +39,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder" [class.d-none]="isHidden(user.userId)">
+            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder | daySort : 0 : sortMethods.NONE" [class.d-none]="isHidden(user.userId)">
                 <td class="d-flex justify-content-between">
                     <span class="flex-fill">
                         {{user.userName}}

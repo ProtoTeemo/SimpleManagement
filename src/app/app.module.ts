@@ -15,6 +15,7 @@ import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ruLocale } from 'ngx-bootstrap/locale';
 import { MatModule } from './mat/mat.module';
 import { SortPipe } from './shared/sort.pipe';
+import { DaySortPipe } from './shared/day-sort.pipe';
 defineLocale('ru', ruLocale);
 
 @NgModule({
@@ -24,7 +25,8 @@ defineLocale('ru', ruLocale);
     InfoBoardComponent,
     DatePipe,
     AutoUpdateComponent,
-    SortPipe
+    SortPipe,
+    DaySortPipe
   ],
   imports: [
     BrowserModule,
