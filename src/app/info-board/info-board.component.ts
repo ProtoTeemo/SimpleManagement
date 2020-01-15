@@ -240,7 +240,6 @@ export class InfoBoardComponent implements OnInit {
     if (this.namesSortOrder != SortMethods.NONE) {
       this.hoursPerDaySortOrder = SortMethods.NONE;
       this.hoursPerWeekSortOrder = SortMethods.NONE;
-      this.changeArrow(event);
     }
     this.changeArrow(event);
   }
@@ -255,12 +254,28 @@ export class InfoBoardComponent implements OnInit {
       this.hoursPerDaySortOrder = 0;
     }
 
-    if (this.namesSortOrder != SortMethods.NONE) {
+    if (this.hoursPerDaySortOrder != SortMethods.NONE) {
       this.namesSortOrder = SortMethods.NONE;
       this.hoursPerWeekSortOrder = SortMethods.NONE;
-      this.changeArrow(event);
     }
 
+    this.changeArrow(event);
+  }
+
+  changehoursPerWeekSortOrder(event) {
+    if (this.hoursPerWeekSortOrder < 2){
+      this.hoursPerWeekSortOrder += 1
+      this.sortDay = 8;
+    }
+    else{
+      this.hoursPerWeekSortOrder = 0;
+      this.sortDay = -1;
+    }
+
+    if (this.hoursPerWeekSortOrder != SortMethods.NONE) {
+      this.namesSortOrder = SortMethods.NONE;
+      this.hoursPerDaySortOrder = SortMethods.NONE;
+    }
     this.changeArrow(event);
   }
 

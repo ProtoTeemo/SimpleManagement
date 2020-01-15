@@ -1,4 +1,4 @@
-<div class="col-7">
+<div class="col-6">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -27,8 +27,8 @@
                         visibility
                     </i>
                 </th>
-                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">
-                    <span class="d-flex align-items-center">
+                <th class="text-center" style="width: 8%" *ngFor="let day of dateService.week.value">
+                    <span class="d-flex flex-column align-items-center">
                         {{day | date}}
                         <i class="material-icons sort-icon text-right"
                         (click)="changehoursPerDaySortOrder($event, day.getDay() - 1)">
@@ -36,11 +36,18 @@
                         </i>
                     </span>
                 </th>
-                <th class="text-center" style="width: 10%">Total</th>
+                <th class="text-center" style="width: 8%">
+                    <span class="flex-column d-flex">
+                        Total
+                        <i class="material-icons sort-icon" (click)="changehoursPerWeekSortOrder($event)">
+                            keyboard_arrow_down
+                        </i>
+                    </span>
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder | daySort : sortDay : hoursPerDaySortOrder" [class.d-none]="isHidden(user.userId)">
+            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder | daySort : sortDay : hoursPerDaySortOrder : hoursPerWeekSortOrder" [class.d-none]="isHidden(user.userId)">
                 <td class="d-flex justify-content-between">
                     <span class="flex-fill">
                         {{user.userName}}
