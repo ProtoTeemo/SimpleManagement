@@ -13,7 +13,7 @@ export class DayDataPipe implements PipeTransform {
           return value.toString();
         case "percantage":
           if(!column) return this.getDayPercantage(capacity, value).toString() + '%';
-          return this.getWeekPercantage(capacity, value).toString() + '%';
+          return this.getWeekPercantage(capacity, value).toFixed(1).toString() + '%';
       }
     }
 
