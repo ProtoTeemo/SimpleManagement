@@ -1,11 +1,11 @@
-<div class="col-6">
+<div class="col-7">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th class="d-flex justify-content-between names-col">
                     <span class="flex-fill d-flex">
                         Users
-                        <i class="material-icons sort-icon" (click)="changeNameSortMethod()">
+                        <i class="material-icons sort-icon" (click)="changeNamesSortOrder($event)">
                             keyboard_arrow_down
                         </i>
                     </span>
@@ -27,13 +27,19 @@
                         visibility
                     </i>
                 </th>
-                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">{{day | date}}
+                <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">
+                    <span class="d-flex align-items-center">
+                        {{day | date}}
+                        <i class="material-icons sort-icon text-right">
+                            keyboard_arrow_down
+                        </i>
+                    </span>
                 </th>
                 <th class="text-center" style="width: 10%">Total</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users | sort : 'userName' : namesSortMethod"
+            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder"
                 [class.d-none]="isHidden(user.userId)">
                 <td class="d-flex justify-content-between">
                     <span class="flex-fill">
@@ -46,7 +52,7 @@
                     </i>
                 </td>
                 <td class="text-center" *ngFor="let hoursPerDay of user.hoursPerDays" 
-                [class.bold-hours-to-capacity]='getDayCapacityLevel(user.capacity, hoursPerDay) &gt;= 100 || getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 0'
+                [class.bold-hours-to-capacity]='getDayCapacityLevel(user.capacity, hoursPerDay) &gt; 100 || getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 0'
                 [ngClass]="{
                     'hours-to-capacity-0': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 10,
                     'hours-to-capacity-1': getDayCapacityLevel(user.capacity, hoursPerDay) &lt;= 25 

@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "~8.2.9",
     "@angular/router": "~8.2.9",
     "@types/datejs": "0.0.30",
+    "@types/lodash": "^4.14.149",
     "bootstrap": "4.1.1",
     "datejs": "^1.0.0-rc3",
     "hammerjs": "^2.0.8",

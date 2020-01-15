@@ -44,9 +44,9 @@ export class InfoBoardComponent implements OnInit {
 
   users: User[] = new Array<User>();
 
-  namesSortMethod: SortMethods = SortMethods.NONE;
-  hoursPerDaySortMethod: SortMethods.NONE;
-  hoursPerWeekSortMethod: SortMethods.NONE;
+  namesSortOrder: SortMethods = SortMethods.NONE;
+  hoursPerDaySortOrder: SortMethods.NONE;
+  hoursPerWeekSortOrder: SortMethods.NONE;
 
   get sortMethods() { return SortMethods; }
 
@@ -226,12 +226,12 @@ export class InfoBoardComponent implements OnInit {
     return hours / onePercentage;
   }
 
-  //#region Sort methods
-  changeNameSortMethod(){
-    if(this.namesSortMethod < 2)
-      this.namesSortMethod += 1
+  changeNamesSortOrder(event) {
+    if (this.namesSortOrder < 2)
+      this.namesSortOrder += 1
     else
-      this.namesSortMethod = 0;
+      this.namesSortOrder = 0;
+
+    event.target.innerText = ~(event.target.innerText as string).indexOf("down", 0) ? "keyboard_arrow_up" : "keyboard_arrow_down";
   }
-  //#endregion
 }
