@@ -1,4 +1,7 @@
 <div class="col-lg-6">
+    <div class="col-12 col-md-5 col-lg-3 mb-2 mt-2">
+        <input class="form-control" [(ngModel)]="search" placeholder="Search..."/>
+    </div>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -31,7 +34,7 @@
                     <span class="d-flex flex-column align-items-center">
                         {{day | date}}
                         <i class="material-icons sort-icon text-right"
-                        (click)="changeHoursPerDaySortOrder($event, day.getDay() - 1)">
+                            (click)="changeHoursPerDaySortOrder($event, day.getDay() - 1)">
                             keyboard_arrow_down
                         </i>
                     </span>
@@ -47,7 +50,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of users | sort : 'userName' : namesSortOrder | daySort : sortDay : viewSettings.dayDataFormat.value : hoursPerDaySortOrder : hoursPerWeekSortOrder" [class.d-none]="isHidden(user.userId)">
+            <tr *ngFor="let user of users | filter:search | sort : 'userName' : namesSortOrder 
+            | daySort : sortDay : viewSettings.dayDataFormat.value : hoursPerDaySortOrder : hoursPerWeekSortOrder"
+                [class.d-none]="isHidden(user.userId)">
                 <td class="d-flex justify-content-between">
                     <span class="flex-fill">
                         {{user.userName}}
@@ -82,7 +87,8 @@
                         &amp;&amp; getWeekCapacityLevel(user.capacity, user.totalHours) &gt; 50,
                     'hours-to-capacity-4': getWeekCapacityLevel(user.capacity, user.totalHours) &gt;= 100
                   }">
-                    {{user.totalHours?.toFixed(1) | dayData : viewSettings.dayDataFormat.value : user.capacity : 'total'}}</td>
+                    {{user.totalHours?.toFixed(1) | dayData : viewSettings.dayDataFormat.value : user.capacity : 'total'}}
+                </td>
             </tr>
         </tbody>
     </table>

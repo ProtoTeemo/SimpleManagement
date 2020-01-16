@@ -18,6 +18,7 @@ import { SortPipe } from './shared/pipes/sort.pipe';
 import { DaySortPipe } from './shared/pipes/day-sort.pipe';
 import { FormatSelectorComponent } from './format-selector/format-selector.component';
 import { DayDataPipe } from './shared/pipes/day-data.pipe';
+import { FilterPipe } from './shared/pipes/filter.pipe';
 defineLocale('ru', ruLocale);
 
 @NgModule({
@@ -30,7 +31,8 @@ defineLocale('ru', ruLocale);
     SortPipe,
     DaySortPipe,
     FormatSelectorComponent,
-    DayDataPipe
+    DayDataPipe,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

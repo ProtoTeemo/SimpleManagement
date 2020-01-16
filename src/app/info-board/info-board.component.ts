@@ -36,6 +36,7 @@ export class InfoBoardComponent implements OnInit {
   }
 
   users: User[] = new Array<User>();
+  search: string;
 
   //#region  Sort
   namesSortOrder: SortMethods = SortMethods.NONE;
