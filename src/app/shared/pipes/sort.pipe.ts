@@ -11,9 +11,9 @@ export class SortPipe implements PipeTransform {
 
   transform(value: User[], property: string, dir: SortMethods): any {
     let order = '';
-    if(dir == 1){
+    if(dir == SortMethods.NORMAL){
       order = 'asc';
-    } else if(dir == 2){
+    } else if(dir == SortMethods.REVERSE){
       order = 'desc';
     }
     if (!value || order === '' || !order) { return value; } // no array

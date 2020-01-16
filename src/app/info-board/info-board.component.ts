@@ -7,14 +7,6 @@ import { WorkLog } from '../models/worklog';
 import { ViewSettingsService } from '../shared/services/view-settings.service';
 
 
-enum CapacityLevels {
-  TERRIBLE,
-  LOW,
-  MEDIUM,
-  HIGHT,
-  BEST
-}
-
 export enum SortMethods {
   NONE,
   NORMAL,
