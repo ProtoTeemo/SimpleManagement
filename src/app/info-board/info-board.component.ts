@@ -116,9 +116,10 @@ export class InfoBoardComponent implements OnInit {
     this.users.forEach(u => {
       this.service.getTasks(u).subscribe((res: any) => {
         const workLogs = [];
-        if (u.tasks.length > 0) u.tasks = new Array<Task>();
+        if (u.tasks && u.tasks.length > 0) u.tasks = new Array<Task>();
         res.value.Tasks.filter(task => {
           return task.Assignments.some(a => {
+            if(!a || !a.Worklog) return false;
             return a.Worklog.length > 0
           });
         })

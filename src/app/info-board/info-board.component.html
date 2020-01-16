@@ -1,34 +1,37 @@
 <div class="col-lg-6">
-    <div class="col-12 col-md-5 col-lg-3 mb-2 mt-2">
-        <input class="form-control" [(ngModel)]="search" placeholder="Search..."/>
-    </div>
+    <!-- <div class="col-12 col-md-5 col-lg-3 mb-2 mt-2">
+        <input class="form-control" [(ngModel)]="search" placeholder="Search..." />
+    </div> -->
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th class="d-flex justify-content-between names-col">
-                    <span class="flex-fill d-flex">
-                        Users
-                        <i class="material-icons sort-icon" (click)="changeNamesSortOrder($event)">
-                            keyboard_arrow_down
+                <th class="d-flex flex-column names-col">
+                    <input class="form-control mb-2" [(ngModel)]="search" placeholder="Search..."/>
+                    <div class="d-flex">
+                        <span class="flex-fill d-flex">
+                            Users
+                            <i class="material-icons sort-icon" (click)="changeNamesSortOrder($event)">
+                                keyboard_arrow_down
+                            </i>
+                        </span>
+                        <ng-template #pop>
+                            <div style="width: 150px;">
+                                <p *ngFor="let user of getHiddenUsersList()" class="d-flex justify-content-between">
+                                    <span class="flex-fill">
+                                        {{user?.userName}}
+                                    </span>
+                                    <i class="material-icons flex-fill text-right" (click)="showUser(user.id)">
+                                        visibility
+                                    </i>
+                                </p>
+                            </div>
+                        </ng-template>
+                        <i class="icon__show-users-popup material-icons flex-fill text-right" [popover]="pop"
+                            popoverTitle="Hidden users:" [adaptivePosition]="false" placement="right"
+                            (click)="$event.stopPropagation()">
+                            visibility
                         </i>
-                    </span>
-                    <ng-template #pop>
-                        <div style="width: 150px;">
-                            <p *ngFor="let user of getHiddenUsersList()" class="d-flex justify-content-between">
-                                <span class="flex-fill">
-                                    {{user?.userName}}
-                                </span>
-                                <i class="material-icons flex-fill text-right" (click)="showUser(user.id)">
-                                    visibility
-                                </i>
-                            </p>
-                        </div>
-                    </ng-template>
-                    <i class="icon__show-users-popup material-icons flex-fill text-right" [popover]="pop"
-                        popoverTitle="Hidden users:" [adaptivePosition]="false" placement="right"
-                        (click)="$event.stopPropagation()">
-                        visibility
-                    </i>
+                    </div>
                 </th>
                 <th class="text-center" style="width: 10%" *ngFor="let day of dateService.week.value">
                     <span class="d-flex flex-column align-items-center">
@@ -58,7 +61,7 @@
                         {{user.userName}}
                     </span>
 
-                    <i class="hideUserIcon material-icons flex-fill text-right" (click)="hideUser(user)"
+                    <i class="hideUserIcon material-icons flex-fill text-right ml-3" (click)="hideUser(user)"
                         (mouseenter)="hideIconMouseEnter($event)" (mouseleave)="hideIconMouseLeave($event)">
                         visibility
                     </i>

@@ -9,7 +9,7 @@ export class DayDataPipe implements PipeTransform {
   formatsObj = {
     'hours': (value: number) : string => { return value.toString() },
     'percantage': (value: number, column: number, capacity: number) : string => {
-      if(!column) return this.getDayPercantage(capacity, value).toString() + '%';
+      if(!column) return this.getDayPercantage(capacity, value).toFixed(1).toString() + '%';
       return this.getWeekPercantage(capacity, value).toFixed(1).toString() + '%';
     }
   };
