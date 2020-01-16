@@ -6,15 +6,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DayDataPipe implements PipeTransform {
 
+  formatsObj = {
+    'hours': (value: number) : string => { return value.toString() },
+    'percantage': (value: number, column: number, capacity: number) : string => {
+      if(!column) return this.getDayPercantage(capacity, value).toString() + '%';
+      return this.getWeekPercantage(capacity, value).toFixed(1).toString() + '%';
+    }
+  };
+
   transform(value: number, format: string, capacity?: number, column?: string): string {
     if (value) {
-      switch (format) {
-        case "hours":
-          return value.toString();
-        case "percantage":
-          if(!column) return this.getDayPercantage(capacity, value).toString() + '%';
-          return this.getWeekPercantage(capacity, value).toFixed(1).toString() + '%';
-      }
+      return this.formatsObj[format](value, column, capacity);
     }
 
   }
