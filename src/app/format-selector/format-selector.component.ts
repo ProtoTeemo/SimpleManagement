@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewSettingsService } from '../shared/view-settings.service';
+import { ViewSettingsService } from '../shared/services/view-settings.service';
 
 @Component({
   selector: 'app-format-selector',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
+import { User } from '../../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Task } from '../models/task';
-import { WorkLog } from '../models/worklog';
+import { Task } from '../../models/task';
+import { WorkLog } from '../../models/worklog';
 import { Observable } from 'rxjs';
 
 @Injectable({

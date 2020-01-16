@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { EpicFlowService } from '../shared/epic-flow.service';
+import { EpicFlowService } from '../shared/services/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
-import { DateService } from '../shared/date.service';
+import { DateService } from '../shared/services/date.service';
 import { WorkLog } from '../models/worklog';
-import { ViewSettingsService } from '../shared/view-settings.service';
+import { ViewSettingsService } from '../shared/services/view-settings.service';
 
 
 enum CapacityLevels {

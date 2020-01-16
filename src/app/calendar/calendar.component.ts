@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DateService } from '../shared/date.service';
+import { DateService } from '../shared/services/date.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { listLocales } from 'ngx-bootstrap/chronos'
 

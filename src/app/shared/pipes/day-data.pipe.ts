@@ -18,7 +18,6 @@ export class DayDataPipe implements PipeTransform {
     if (value) {
       return this.formatsObj[format](value, column, capacity);
     }
-
   }
 
   getDayPercantage(capacity: number, hours: number): number {

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from '../models/user';
-import { SortMethods } from '../info-board/info-board.component';
+import { User } from '../../models/user';
+import { SortMethods } from '../../info-board/info-board.component';
 import * as _ from 'lodash';
 
 @Pipe({
