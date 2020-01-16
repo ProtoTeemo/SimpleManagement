@@ -20,7 +20,7 @@ export class CalendarComponent implements OnInit {
   onDateChange(value: Date) : void{
     const day = value.getDay();
     if(day !== 1)
-      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 1 ? -6 : 1));
+      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 0 ? -6 : 1));
     else
       this.bsValue = value;
     this.dateService.changeDate(value);
