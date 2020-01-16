@@ -198,7 +198,6 @@ export class InfoBoardComponent implements OnInit {
     event.target.style.color = "black";
   }
 
-
   getHiddenUsersList(): { userName: string, id: string }[] {
     const users = new Array<{ userName: string, id: string }>();
     const lenght = localStorage.length;

@@ -40,14 +40,5 @@ export class EpicFlowService {
     return capacityResult;
   }
 
-  compareDates(...dates: Date[]) {
-    if (dates.length < 2)
-      throw new Error("Invalid arguments!")
-    return dates.every(date => {
-      return date.getDate() == dates[0].getDate()
-        && date.getMonth() == dates[0].getMonth()
-        && date.getFullYear() == dates[0].getFullYear()
-    })
-  }
 }
 
