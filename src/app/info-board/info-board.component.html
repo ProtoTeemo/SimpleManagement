@@ -31,7 +31,7 @@
                     <span class="d-flex flex-column align-items-center">
                         {{day | date}}
                         <i class="material-icons sort-icon text-right"
-                        (click)="changehoursPerDaySortOrder($event, day.getDay() - 1)">
+                        (click)="changeHoursPerDaySortOrder($event, day.getDay() - 1)">
                             keyboard_arrow_down
                         </i>
                     </span>
@@ -39,7 +39,7 @@
                 <th class="text-center" style="width: 8%">
                     <span class="flex-column d-flex">
                         Total
-                        <i class="material-icons sort-icon" (click)="changehoursPerWeekSortOrder($event)">
+                        <i class="material-icons sort-icon" (click)="changeHoursPerWeekSortOrder($event)">
                             keyboard_arrow_down
                         </i>
                     </span>

@@ -239,7 +239,7 @@ export class InfoBoardComponent implements OnInit {
     this.changeArrow(event);
   }
 
-  changehoursPerDaySortOrder(event, day) {
+  changeHoursPerDaySortOrder(event, day) {
     if (this.hoursPerDaySortOrder < 2) {
       this.hoursPerDaySortOrder += 1
       this.sortDay = day;
@@ -257,7 +257,7 @@ export class InfoBoardComponent implements OnInit {
     this.changeArrow(event);
   }
 
-  changehoursPerWeekSortOrder(event) {
+  changeHoursPerWeekSortOrder(event) {
     if (this.hoursPerWeekSortOrder < 2){
       this.hoursPerWeekSortOrder += 1
       this.sortDay = 8;
