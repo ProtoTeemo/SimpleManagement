@@ -7,6 +7,8 @@ export class User {
     tasks? : Task[];
     tasksMap? : Map<string, Task[]> = new Map<string, Task[]>();
     totalHours? : number;
+    totalPercantages? : number;
     hoursPerDays? : number[];
+    percantagesPerDays? : number[];
     capacity :number;
 }

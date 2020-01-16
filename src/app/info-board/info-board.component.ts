@@ -71,6 +71,7 @@ export class InfoBoardComponent implements OnInit {
           tasksMap: new Map<string, Task[]>(),
           tasks: new Array<Task>(),
           hoursPerDays: new Array<number>(7),
+          percantagesPerDays: new Array<number>(7),
           capacity: this.service.getCapacity(res, i)
         };
         this.users.push(user_map);
@@ -97,6 +98,7 @@ export class InfoBoardComponent implements OnInit {
             });
           });
           u.hoursPerDays[i] = hoursPerDay;
+          u.percantagesPerDays[i] = this.getDayCapacityLevel(u.capacity, hoursPerDay);
           tasks.map(t => {
             t.workLogs = t.workLogs.filter(wl => {
               return this.compareDates(wl.dateTime, day);
@@ -167,6 +169,7 @@ export class InfoBoardComponent implements OnInit {
         })
       }
       u.totalHours = sum;
+      u.totalPercantages = this.getWeekCapacityLevel(u.capacity, sum);
     });
   }
 
@@ -213,8 +216,8 @@ export class InfoBoardComponent implements OnInit {
       0: x <= 10% 
       1: x <= 25% && x > 10%
       2: x <= 50% && x > 25%
-      3. x <= 75% && x > 50%
-      4. x <= 100% && x > 75%
+      3. x < 100% && x > 50%
+      4. x >= 100%
      */
     if (!capacity) return 0;
     let normalHours = capacity * 8 * 0.01;
