@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { EpicFlowService } from '../shared/services/epic-flow.service';
 import { User } from '../models/user';
 import { Task } from '../models/task';
-import { DateService } from '../shared/services/date.service';
+import { DateService, WeekDays } from '../shared/services/date.service';
 import { WorkLog } from '../models/worklog';
 import { ViewSettingsService } from '../shared/services/view-settings.service';
 
@@ -41,7 +41,7 @@ export class InfoBoardComponent implements OnInit {
   namesSortOrder: SortMethods = SortMethods.NONE;
   hoursPerDaySortOrder: SortMethods = SortMethods.NONE;
   hoursPerWeekSortOrder: SortMethods = SortMethods.NONE;
-  sortDay: number = -1;
+  sortDay: WeekDays = -1;
 
   get sortMethods() { return SortMethods; }
 

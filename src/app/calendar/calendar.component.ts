@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DateService } from '../shared/services/date.service';
+import { DateService, WeekDays } from '../shared/services/date.service';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { listLocales } from 'ngx-bootstrap/chronos'
 
@@ -19,8 +19,8 @@ export class CalendarComponent implements OnInit {
 
   onDateChange(value: Date) : void{
     const day = value.getDay();
-    if(day !== 1)
-      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == 0 ? -6 : 1));
+    if(day !== WeekDays.MONDAY)
+      this.bsValue = new Date(value.getFullYear(), value.getMonth(), value.getDate() - day + (day == WeekDays.SUNDAY ? -6 : 1));
     else
       this.bsValue = value;
     this.dateService.changeDate(value);
