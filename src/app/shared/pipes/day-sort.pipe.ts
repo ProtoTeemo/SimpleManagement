@@ -9,38 +9,40 @@ import * as _ from 'lodash';
 })
 export class DaySortPipe implements PipeTransform {
 
-  transform(value: User[], day: number, format?: string, ...dir: SortMethods[]): any {
+  transform(value: User[], day: number, format?: string, ...dirs: SortMethods[]): any {
 
     let order = '';
 
-    if (day == 8) {
-      if (dir[1] == SortMethods.NORMAL) {
+    // I decided mark a 'Total' column as '8'
+    const totalColumnNumber = 8
+    if (day == totalColumnNumber) {
+      if (dirs[1] == SortMethods.NORMAL) {
         order = 'desc';
-      } else if (dir[1] == SortMethods.REVERSE) {
+      } else if (dirs[1] == SortMethods.REVERSE) {
         order = 'asc';
       }
-      if(format == "percantage"){
-        if (!value || order === '' || !order) { return value; } // no array
-        if (value.length <= 1) { return value; } // array with only one item
+
+      if (!value || order === '' || !order) { return value; } // no array
+      if (value.length <= 1) { return value; } // array with only one item
+
+      if (format == "percantage") {
         return _.orderBy(value, ['totalPercantages'], [order as any]);
       }
-      if (!value || order === '' || !order) { return value; } 
-      if (value.length <= 1) { return value; } 
       return _.orderBy(value, ['totalHours'], [order as any]);
     }
 
-    if (dir[0] == SortMethods.NORMAL) {
+    if (dirs[0] == SortMethods.NORMAL) {
       order = 'desc';
-    } else if (dir[0] == SortMethods.REVERSE) {
+    } else if (dirs[0] == SortMethods.REVERSE) {
       order = 'asc';
     }
-    if(format == "percantage"){
-      if (!value || order === '' || !order) { return value; } 
-      if (value.length <= 1) { return value; } 
+    
+    if (!value || order === '' || !order) { return value; }
+    if (value.length <= 1 || day == -1) { return value; }
+
+    if (format == "percantage") {
       return _.orderBy(value, [`percantagesPerDays[${day}]`], [order as any]);
     }
-    if (!value || order === '' || !order) { return value; } 
-    if (value.length <= 1 || day == -1) { return value; } 
     return _.orderBy(value, [`hoursPerDays[${day}]`], [order as any]);
   }
 
