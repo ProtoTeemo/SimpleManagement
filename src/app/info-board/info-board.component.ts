@@ -13,6 +13,7 @@ export enum SortMethods {
   REVERSE
 }
 
+
 @Component({
   selector: 'app-info-board',
   templateUrl: './info-board.component.html',
@@ -36,22 +37,24 @@ export class InfoBoardComponent implements OnInit {
   }
 
   users: User[] = new Array<User>();
+
   search: string;
-
-  //#region  Sort
-  namesSortOrder: SortMethods = SortMethods.NONE;
-  hoursPerDaySortOrder: SortMethods = SortMethods.NONE;
-  hoursPerWeekSortOrder: SortMethods = SortMethods.NONE;
-  sortDay: WeekDays = -1;
-
-  get sortMethods() { return SortMethods; }
-
-  //#endregion
 
   ngOnInit() {
     this.getUsers();
   }
 
+  //#region  Sort fields
+    namesSortOrder: SortMethods = SortMethods.NONE;
+    hoursPerDaySortOrder: SortMethods = SortMethods.NONE;
+    hoursPerWeekSortOrder: SortMethods = SortMethods.NONE;
+    sortDay: WeekDays = -1;
+  
+    get sortMethods() { return SortMethods; }
+  
+    //#endregion
+
+  //#region General of works with table
   getUsers() {
     this.service.getUsers().subscribe((res: any) => {
       res.value.users.map((user, i) => {
@@ -104,14 +107,6 @@ export class InfoBoardComponent implements OnInit {
     });
   }
 
-  hideUser(user: User) {
-    localStorage.setItem(user.userId, JSON.stringify(user));
-  }
-
-  showUser(userId: string) {
-    localStorage.removeItem(userId);
-  }
-
   getTasks() {
     this.users.forEach(u => {
       this.service.getTasks(u).subscribe((res: any) => {
@@ -119,7 +114,7 @@ export class InfoBoardComponent implements OnInit {
         if (u.tasks && u.tasks.length > 0) u.tasks = new Array<Task>();
         res.value.Tasks.filter(task => {
           return task.Assignments.some(a => {
-            if(!a || !a.Worklog) return false;
+            if (!a || !a.Worklog) return false;
             return a.Worklog.length > 0
           });
         })
@@ -151,7 +146,9 @@ export class InfoBoardComponent implements OnInit {
       });
     });
   }
+  //#endregion
 
+  //#region Calculate methods
   calculateHours() {
     this.users.forEach(u => {
       let sum = 0;
@@ -167,7 +164,6 @@ export class InfoBoardComponent implements OnInit {
     });
   }
 
-
   compareDates(...dates: Date[]) {
     if (dates.length < 2)
       throw new Error("Invalid arguments!")
@@ -176,6 +172,41 @@ export class InfoBoardComponent implements OnInit {
         && date.getMonth() == dates[0].getMonth()
         && date.getFullYear() == dates[0].getFullYear()
     })
+  }
+
+  getDayCapacityLevel(capacity: number, hours: number): number {
+    /*
+    Levels:
+      0: x <= 10% 
+      1: x <= 25% && x > 10%
+      2: x <= 50% && x > 25%
+      3. x < 100% && x > 50%
+      4. x >= 100%
+     */
+    if (!capacity) return 0;
+    let normalHours = capacity * 8 * 0.01;
+    let onePercentage = normalHours / 100;
+
+    return hours / onePercentage;
+  }
+
+  getWeekCapacityLevel(capacity: number, hours: number): number {
+    if (!capacity) return 0;
+    let normalHours = capacity * 40 * 0.01;
+    let onePercentage = normalHours / 100;
+
+    return hours / onePercentage;
+  }
+  //#endregion
+
+  //#region  Work with hidden users
+
+  hideUser(user: User) {
+    localStorage.setItem(user.userId, JSON.stringify(user));
+  }
+
+  showUser(userId: string) {
+    localStorage.removeItem(userId);
   }
 
   isHidden(userId: string): boolean {
@@ -202,30 +233,7 @@ export class InfoBoardComponent implements OnInit {
 
     return users;
   }
-
-  getDayCapacityLevel(capacity: number, hours: number): number {
-    /*
-    Levels:
-      0: x <= 10% 
-      1: x <= 25% && x > 10%
-      2: x <= 50% && x > 25%
-      3. x < 100% && x > 50%
-      4. x >= 100%
-     */
-    if (!capacity) return 0;
-    let normalHours = capacity * 8 * 0.01;
-    let onePercentage = normalHours / 100;
-
-    return hours / onePercentage;
-  }
-
-  getWeekCapacityLevel(capacity: number, hours: number): number {
-    if (!capacity) return 0;
-    let normalHours = capacity * 40 * 0.01;
-    let onePercentage = normalHours / 100;
-
-    return hours / onePercentage;
-  }
+  //#endregion
 
   //#region Sort methods
   changeNamesSortOrder(event) {
@@ -260,11 +268,11 @@ export class InfoBoardComponent implements OnInit {
   }
 
   changeHoursPerWeekSortOrder(event) {
-    if (this.hoursPerWeekSortOrder < 2){
+    if (this.hoursPerWeekSortOrder < 2) {
       this.hoursPerWeekSortOrder += 1
       this.sortDay = 8;
     }
-    else{
+    else {
       this.hoursPerWeekSortOrder = 0;
       this.sortDay = -1;
     }
